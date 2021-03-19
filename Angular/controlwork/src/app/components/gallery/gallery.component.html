@@ -1,0 +1,38 @@
+<h1 class="my-title">Dmytro Meheda IT-71</h1>
+<div *ngIf="!isGallerySelected">
+  <h2>Galleries list</h2>
+  <div class="gallery-list" *ngFor="let gallery of galleries">
+    <a [routerLink]="" (click)="selectGallery(gallery)">{{ gallery.name }}</a>
+  </div>
+</div>
+<div *ngIf="isGallerySelected">
+  <table class="table">
+    <tr>
+      <th>№</th>
+      <th>Name</th>
+      <th>Author</th>
+      <th>Creation year</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let pic of selectedGallery.pictures">
+      <td>{{pic.id}}</td>
+      <td>{{pic.name}}</td>
+      <td>{{pic.authorName}}</td>
+      <td>{{pic.creationDate | date: "yyyy"}}</td>
+      <td>
+        <button (click)="selectPictureToEdit(pic)">Edit</button>
+      </td>
+    </tr>
+  </table>
+  <div *ngIf="isEditing">
+    <form [formGroup]="editFormModel">
+      <input name="pic_id" value="{{selectedPictureToEdit.id}}" readonly>
+      <input name="pic_name"  value="{{selectedPictureToEdit.name}}" formControlName="picName" placeholder="Picture name">
+      <input name="authorName"  value="{{selectedPictureToEdit.authorName}}" formControlName="authorName" placeholder="Author name">
+      <input name="pic_creationdate" type="date"
+      value="{{selectedPictureToEdit.creationDate}}" formControlName="creationDate">
+      <button type="submit" (ngSubmit)="submitEditing()">Submit</button>
+    </form>
+  </div>
+</div>
+
